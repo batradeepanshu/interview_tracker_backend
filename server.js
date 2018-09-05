@@ -6,7 +6,11 @@ bodyParser = require('body-parser');
 
 var mongoose = require("mongoose");
 // mongoose.Promise = global.Promise;
-mongoose.connect("mongodb://localhost:27017/test").then((resp)=>{
+
+let dbUrlResolver=function(){
+  return process.env.NODE_ENV=='production'?'mongodb://admin:admin123@ds135952.mlab.com:35952/calendar':"mongodb://localhost:27017/test";
+}
+mongoose.connect(dbUrlResolver()).then((resp)=>{
   console.log('connected',resp);
 },(err)=>{
   console.log('connection fail ho gya',err);
